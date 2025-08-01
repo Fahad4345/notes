@@ -1,61 +1,50 @@
 "use client";
+
 import Link from "next/link";
+import { timeConvertion } from "../lib/util";
 import React, { useState, useEffect } from "react";
 export default function Home() {
   const [notes, setNote] = useState([]);
   const [Search, setSearch] = useState("");
-    const [ filterNotesList, setfilterNotes] = useState([]);
-
+  const [filterNotesList, setfilterNotes] = useState([]);
 
   useEffect(() => {
     const notes = JSON.parse(localStorage.getItem("notes")) || [];
 
     setNote(notes);
-    
   }, []);
   function SelectOption(e) {
-    
-    const selectElement = e.target.value
+    const selectElement = e.target.value;
 
-    if (selectElement == "Alphabet")
-    
-    {
-      
+    if (selectElement == "Alphabet") {
       const sortedNotes = [...notes].sort((a, b) =>
-        a.title.localeCompare(b.title));
+        a.title.localeCompare(b.title)
+      );
       setNote(sortedNotes);
-     
-    }
-    else if (selectElement == "Recently Created") {
-      console.log("recently added")
-        const sortedNotes = [...notes].sort((a, b) =>
-        new Date(b.createdAt) - new Date(a.createdAt)
+    } else if (selectElement == "Recently Created") {
+      console.log("recently added");
+      const sortedNotes = [...notes].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
-      setNote(sortedNotes)
-      
-    }
-    else if (selectElement == "Last Edited") {
-      console.log("Last Edited")
- const sortedNotes = [...notes].sort((a, b) =>
-        new Date(b.updatedAt) - new Date(a.updatedAt)
+      setNote(sortedNotes);
+    } else if (selectElement == "Last Edited") {
+      console.log("Last Edited");
+      const sortedNotes = [...notes].sort(
+        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
       );
-      setNote(sortedNotes)
-      
+      setNote(sortedNotes);
     }
-   
   }
   function FilterTitle(e) {
     const keyword = e.target.value;
     setSearch(keyword);
-    
+
     const filterNotes = notes.filter((note) =>
       note.title.toLowerCase().includes(keyword.toLowerCase())
     );
     setfilterNotes(filterNotes);
-
-     
-   }
- const NoteToDisplay= Search ? filterNotesList:notes 
+  }
+  const NoteToDisplay = Search ? filterNotesList : notes;
   return (
     <div>
       {/* Head Sec */}
@@ -63,30 +52,27 @@ export default function Home() {
         <div className=" flex w-full  justify-center  gap-x-[50px]  mx-auto">
           <input
             type="text"
-             value={Search}
+            value={Search}
             onChange={FilterTitle}
             placeholder="Filter by"
             className="w-[200px]   rounded-[8px] bg-white  px-[8px] py-[8px]"
           />
           <select
             onChange={SelectOption}
-
-            
             name="sortBy"
             id="sortBy"
             className="bg-white w-[200px] rounded-[8px] px-[8px] py-[8px]"
           >
-            <option value="Alphabet" >
-              Alphabet
-            </option>
+            <option value="Alphabet">Alphabet</option>
             <option value="Last Edited">Last Edited</option>
             <option value="Recently Created">Recently Created</option>
           </select>
         </div>
       </div>{" "}
-      
       <div className=" max-w-[700px] flex w-full  flex-col gap-[10px] mx-auto mt-[20px]">
         {NoteToDisplay.map((note) => {
+          const timeString = timeConvertion(note.updatedAt);
+
           return (
             <Link key={note.id} href={`${note.id}`}>
               <div className=" flex cursor-pointer flex-col gap-[10px]  bg-[#F7F7F7] p-[10px] max-">
@@ -94,7 +80,7 @@ export default function Home() {
                   <h1>{note.title} </h1>
                 </div>
                 <div>
-                  <h1>last Edited:{note.createdAt}</h1>
+                  <h1>last Edited:{timeString}</h1>
                 </div>
               </div>
             </Link>

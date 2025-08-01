@@ -1,8 +1,9 @@
 "use client";
-
 import Link from "next/link";
+import { timeConvertion } from "../../lib/util";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
 
 export default function EditNote() {
   const [title, setTitle] = useState("");
@@ -12,13 +13,15 @@ export default function EditNote() {
   const [foundObject, setFoundObject] = useState([]);
 
   const params = useParams();
+  let timeString = timeConvertion(foundObject.updatedAt);
 
   useEffect(() => {
     const foundnotes = JSON.parse(localStorage.getItem("notes")) || [];
     const foundObject = foundnotes.find((note) => note.id == params.id);
     setFoundNotes(foundnotes);
     setFoundObject(foundObject);
-    console.log(foundnotes.updatedAt);
+  
+  
 
     if (foundObject) {
       setTitle(foundObject.title);
@@ -42,8 +45,8 @@ export default function EditNote() {
           id: note.id,
           title: title,
           body: body,
-          updatedAt: new Date().toLocaleString(),
-          createdAt: createdAt
+          updatedAt: Date.now(),
+          createdAt: createdAt,
         };
       }
       return note;
@@ -54,12 +57,13 @@ export default function EditNote() {
   }
 
   return (
-    //  head sec
     <div>
       <div className=" bg-[#F7F7F7] w-full flex items-center min-h-[70px] p-[10px]">
         <div className="max-w-[700px] flex w-full gap-[20px] mx-auto justify-between">
-          <Link href="/"><p className="text-[18px] ">Home</p></Link>
-          <h1 className="text-[18px] ">Last Edited:{foundnotes.updatedAt}</h1>
+          <Link href="/">
+            <p className="text-[18px] ">Home</p>
+          </Link>
+          <h1 className="text-[18px] ">Last Edited:{timeString}</h1>
         </div>
       </div>
       <div className="flex mx-auto flex-col max-w-[700px] w-full gap-[16px] mt-[20px] p-[16px]">

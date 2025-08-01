@@ -1,11 +1,13 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { v4 } from "uuid";
 
 export default function NewNotes() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const router = useRouter();
 
   function HandleAddNote() {
     const notes = JSON.parse(localStorage.getItem("notes")) || [];
@@ -20,6 +22,7 @@ export default function NewNotes() {
 
     notes.push(newNote);
     localStorage.setItem("notes", JSON.stringify(notes));
+    router.push("/");
   }
 
   return (

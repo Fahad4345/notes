@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { timeConvertion } from "../../lib/util";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function EditNote() {
@@ -12,6 +12,7 @@ export default function EditNote() {
   const [foundObject, setFoundObject] = useState([]);
 
   const params = useParams();
+  const router = useRouter();
   let timeString = timeConvertion(foundObject.updatedAt);
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export default function EditNote() {
     const updatedNotes = foundnotes.filter((note) => note.id != params.id);
     localStorage.setItem("notes", JSON.stringify(updatedNotes));
     setFoundNotes(updatedNotes);
+    router.push("/");
   }
 
   function handleupdate() {
@@ -48,6 +50,7 @@ export default function EditNote() {
     });
     localStorage.setItem("notes", JSON.stringify(updatedNotes));
     setFoundNotes(updatedNotes);
+    router.push("/");
   }
 
   return (

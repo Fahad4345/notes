@@ -28,14 +28,14 @@ export default function EditNote() {
       setBody(foundObject.body);
       setDate(foundObject.createdAt);
     } else {
-      console.log("Not found");
+   
     }
   }, [params]);
   function handleRemove() {
     const updatedNotes = foundnotes.filter((note) => note.id != params.id);
     localStorage.setItem("notes", JSON.stringify(updatedNotes));
     setFoundNotes(updatedNotes);
-    alert("Note Removed Successfully");
+
   }
 
   function handleupdate() {
@@ -53,7 +53,7 @@ export default function EditNote() {
     });
     localStorage.setItem("notes", JSON.stringify(updatedNotes));
     setFoundNotes(updatedNotes);
-    alert("Note Updated Successfully");
+
   }
 
   return (

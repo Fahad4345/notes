@@ -22,13 +22,13 @@ export default function Home() {
       );
       setNote(sortedNotes);
     } else if (selectElement == "Recently Created") {
-      console.log("recently added");
+
       const sortedNotes = [...notes].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
       setNote(sortedNotes);
     } else if (selectElement == "Last Edited") {
-      console.log("Last Edited");
+  
       const sortedNotes = [...notes].sort(
         (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
       );

@@ -9,8 +9,7 @@ export default function NewNotes() {
 
   function HandleAddNote() {
     const notes = JSON.parse(localStorage.getItem("notes")) || [];
-   
-  
+
     const newNote = {
       id: v4(),
       title: title,
@@ -21,8 +20,6 @@ export default function NewNotes() {
 
     notes.push(newNote);
     localStorage.setItem("notes", JSON.stringify(notes));
-  
-  
   }
 
   return (

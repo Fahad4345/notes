@@ -4,7 +4,6 @@ import { timeConvertion } from "../../lib/util";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-
 export default function EditNote() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -20,22 +19,18 @@ export default function EditNote() {
     const foundObject = foundnotes.find((note) => note.id == params.id);
     setFoundNotes(foundnotes);
     setFoundObject(foundObject);
-  
-  
 
     if (foundObject) {
       setTitle(foundObject.title);
       setBody(foundObject.body);
       setDate(foundObject.createdAt);
     } else {
-   
     }
   }, [params]);
   function handleRemove() {
     const updatedNotes = foundnotes.filter((note) => note.id != params.id);
     localStorage.setItem("notes", JSON.stringify(updatedNotes));
     setFoundNotes(updatedNotes);
-
   }
 
   function handleupdate() {
@@ -53,7 +48,6 @@ export default function EditNote() {
     });
     localStorage.setItem("notes", JSON.stringify(updatedNotes));
     setFoundNotes(updatedNotes);
-
   }
 
   return (

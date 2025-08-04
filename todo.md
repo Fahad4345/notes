@@ -1,13 +1,10 @@
 ### Notes:
 Integrated  :
-- Added function for filter notes
-- Added function for sorting notes(Alphabetical sort, Last added sort, recently added sort)
-- Adjusted UI
-- Responsive UI
+- Added Time convertion function that convert date, time to string like 1 day ago,5 min ago
+- Added Last edited time to edit page
 
 Next : 
-- Time Convertion to Text
-- Some Adjustement 
+- Completed
 
-Loom : (https://www.loom.com/share/d1632a18fa8b4ba89a2dfddaf6dee450?sid=0623421d-e584-434c-b5c0-099e5638b9a3)
+Loom : (https://www.loom.com/share/cfbc27e1115741eaba3db255c2bfc597?sid=29ce4b53-8f7f-4e97-be11-78f2025c525f)
 Preview : (https://notes-tau-virid.vercel.app/)

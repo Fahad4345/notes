@@ -13,13 +13,15 @@ export default function EditNote() {
 
   const params = useParams();
   const router = useRouter();
-  let timeString = timeConvertion(foundObject.updatedAt);
+  let timeString = timeConvertion(foundObject?.updatedAt ?? "");
 
   useEffect(() => {
     const foundnotes = JSON.parse(localStorage.getItem("notes")) || [];
     const foundObject = foundnotes.find((note) => note.id == params.id);
     setFoundNotes(foundnotes);
     setFoundObject(foundObject);
+
+
 
     if (foundObject) {
       setTitle(foundObject.title);
@@ -37,7 +39,7 @@ export default function EditNote() {
 
   function handleupdate() {
     const updatedNotes = foundnotes.map((note) => {
-      if (note.id === params.id) {
+      if (note.id == params.id) {
         return {
           id: note.id,
           title: title,

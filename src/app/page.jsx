@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { timeConvertion } from "../lib/util";
 import React, { useState, useEffect } from "react";
-import { title } from "process";
+
 
 export default function Home() {
   const [notes, setNote] = useState([]);
@@ -12,26 +12,37 @@ export default function Home() {
 
 
   useEffect(() => {
-      const localnotes = JSON.parse(localStorage.getItem("notes")) || [];
-    async function GetNotes() {
-     const response = await fetch("https://dummyjson.com/todos");
-     const data =  await response.json();
-     const apiNotes = data.todos.map((todo) => ({
-       id:todo.id,
-       title:todo.todo,
-       body:"",
-       createdAt:null,
-       updatedAt:null,
-     }));
-      let combinedNotes = [...localnotes,...apiNotes];
-      setNote(combinedNotes);
-    }
-    GetNotes();
 
+      GetNotes();
+    
   
+    
+ 
   }, []);
+ 
+ async function GetNotes() {
+  const localNotes = JSON.parse(localStorage.getItem("notes")) || [];
 
-  
+  const response = await fetch("https://dummyjson.com/todos");
+  const data = await response.json();
+
+  const apiNotes = data.todos.map((todo) => ({
+    id: todo.id,
+    title: todo.todo,
+    body: "",
+    createdAt:null ,
+    updatedAt:null,
+  }));
+
+ 
+  const existingIds = new Set(localNotes.map((note) => note.id));
+  const newApiNotes = apiNotes.filter((note) => !existingIds.has(note.id));
+
+  const combinedNotes = [...localNotes,...newApiNotes];
+
+  localStorage.setItem("notes", JSON.stringify(combinedNotes));
+  setNote(combinedNotes);
+}
   function SelectOption(e) {
     const selectElement = e.target.value;
 
@@ -62,6 +73,7 @@ export default function Home() {
     setfilterNotes(filterNotes);
   }
   const NoteToDisplay = Search ? filterNotesList : notes;
+
   return (
     <div>
       {/* Head Sec */}
@@ -79,7 +91,7 @@ export default function Home() {
             name="sortBy"
             id="sortBy"
             className="bg-white w-[200px] rounded-[8px] px-[8px] py-[8px]"
-          >
+          >   <option value="Sortby">Sort By</option>
             <option value="Alphabet">Alphabet</option>
             <option value="Last Edited">Last Edited</option>
             <option value="Recently Created">Recently Created</option>

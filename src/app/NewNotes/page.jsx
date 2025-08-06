@@ -10,6 +10,12 @@ export default function NewNotes() {
   const router = useRouter();
 
   function HandleAddNote() {
+  
+    if (!title.trim()||!body.trim()) {
+     
+     return alert("Both field required");
+       
+     }
     const notes = JSON.parse(localStorage.getItem("notes")) || [];
 
     const newNote = {
@@ -19,6 +25,8 @@ export default function NewNotes() {
       updatedAt: Date.now(),
       createdAt: Date.now(),
     };
+
+    console.log(newNote);
 
     notes.push(newNote);
     localStorage.setItem("notes", JSON.stringify(notes));
@@ -51,7 +59,7 @@ export default function NewNotes() {
             value={body}
             onChange={(e) => setBody(e.target.value)}
             placeholder=" Type your notes body"
-            className=" max-w-[700px] w-full p-[10px] bg-[#F7F7F7] text-[18px] rounded-[5px]"
+            className=" max-w-[700px] w-full  max-h-[1000px] h-full  p-[10px] bg-[#F7F7F7] text-[18px] rounded-[5px]"
           />
         </div>
         <div className="">

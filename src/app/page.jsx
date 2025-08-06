@@ -4,35 +4,30 @@ import Link from "next/link";
 import { timeConvertion } from "../lib/util";
 import React, { useState, useEffect } from "react";
 
-
 export default function Home() {
   const [notes, setNote] = useState([]);
   const [Search, setSearch] = useState("");
 
   const [filterNotesList, setfilterNotes] = useState([]);
-  
 
   useEffect(() => {
-    let isreloaded = sessionStorage.getItem("visited")
-    if (!isreloaded) {
+    let isVisited = sessionStorage.getItem("visited");
+    if (!isVisited) {
       sessionStorage.setItem("visited", "true");
       GetNotes();
-    }
-     else {
+    } else {
       let localNotes = JSON.parse(localStorage.getItem("notes"));
       setNote(localNotes);
     }
     const onload = () => {
       sessionStorage.removeItem("visited");
-    }
+    };
     window.addEventListener("beforeunload", onload);
-      return () => {
+    return () => {
       window.removeEventListener("beforeunload", onload);
-    }
-     
-  },[]);
- 
-  
+    };
+  }, []);
+
   async function GetNotes() {
     const localNotes = JSON.parse(localStorage.getItem("notes")) || [];
 
@@ -147,4 +142,3 @@ export default function Home() {
     </div>
   );
 }
-

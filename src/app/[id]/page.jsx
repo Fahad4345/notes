@@ -21,8 +21,6 @@ export default function EditNote() {
     setFoundNotes(foundnotes);
     setFoundObject(foundObject);
 
-
-
     if (foundObject) {
       setTitle(foundObject.title);
       setBody(foundObject.body);
@@ -32,9 +30,11 @@ export default function EditNote() {
   }, [params]);
   function handleRemove() {
     const updatedNotes = foundnotes.filter((note) => note.id != params.id);
+    console.log(updatedNotes, "updatedNOtes-------");
     localStorage.setItem("notes", JSON.stringify(updatedNotes));
     setFoundNotes(updatedNotes);
     router.push("/");
+    console.log(updatedNotes);
   }
 
   function handleupdate() {

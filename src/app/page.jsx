@@ -8,41 +8,59 @@ import React, { useState, useEffect } from "react";
 export default function Home() {
   const [notes, setNote] = useState([]);
   const [Search, setSearch] = useState("");
-  const [filterNotesList, setfilterNotes] = useState([]);
 
+  const [filterNotesList, setfilterNotes] = useState([]);
+  
 
   useEffect(() => {
-
+    let isreloaded = sessionStorage.getItem("visited")
+    if (!isreloaded) {
+      sessionStorage.setItem("visited", "true");
       GetNotes();
-    
+    }
+     else {
+      let localNotes = JSON.parse(localStorage.getItem("notes"));
+      setNote(localNotes);
+    }
+    const onload = () => {
+      sessionStorage.removeItem("visited");
+    }
+    window.addEventListener("beforeunload", onload);
+      return () => {
+      window.removeEventListener("beforeunload", onload);
+    }
+     
+  },[]);
+ 
   
-    
- 
-  }, []);
- 
- async function GetNotes() {
-  const localNotes = JSON.parse(localStorage.getItem("notes")) || [];
+  async function GetNotes() {
+    const localNotes = JSON.parse(localStorage.getItem("notes")) || [];
 
-  const response = await fetch("https://dummyjson.com/todos");
-  const data = await response.json();
+    try {
+      const response = await fetch("https://dummyjson.com/todos");
+      const data = await response.json();
 
-  const apiNotes = data.todos.map((todo) => ({
-    id: todo.id,
-    title: todo.todo,
-    body: "",
-    createdAt:null ,
-    updatedAt:null,
-  }));
+      const apiNotes = data.todos.map((todo) => ({
+        id: todo.id,
+        title: todo.todo,
+        body: "",
+        createdAt: null,
+        updatedAt: null,
+      }));
 
- 
-  const existingIds = new Set(localNotes.map((note) => note.id));
-  const newApiNotes = apiNotes.filter((note) => !existingIds.has(note.id));
+      const existingIds = new Set(localNotes.map((note) => note.id));
+      const newApiNotes = apiNotes.filter((note) => !existingIds.has(note.id));
 
-  const combinedNotes = [...localNotes,...newApiNotes];
+      const combinedNotes = [...localNotes, ...newApiNotes];
 
-  localStorage.setItem("notes", JSON.stringify(combinedNotes));
-  setNote(combinedNotes);
-}
+      localStorage.setItem("notes", JSON.stringify(combinedNotes));
+      setNote(combinedNotes);
+    } catch (error) {
+      console.error("Failed to fetch notes:", error);
+      setNote(localNotes);
+    }
+  }
+
   function SelectOption(e) {
     const selectElement = e.target.value;
 
@@ -91,7 +109,9 @@ export default function Home() {
             name="sortBy"
             id="sortBy"
             className="bg-white w-[200px] rounded-[8px] px-[8px] py-[8px]"
-          >   <option value="Sortby">Sort By</option>
+          >
+            {" "}
+            <option value="Sortby">Sort By</option>
             <option value="Alphabet">Alphabet</option>
             <option value="Last Edited">Last Edited</option>
             <option value="Recently Created">Recently Created</option>
@@ -127,3 +147,4 @@ export default function Home() {
     </div>
   );
 }
+

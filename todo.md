@@ -1,9 +1,10 @@
 ### Notes:
 Integrated  :
-- Integrated Api using get note function that combined the notes of local storage and dummy api in array
+- Added update note for api notes in local storage
+- use getEnteries by type method for loading note on reload but facing some errors
 
 Next : 
-- Some Adjustement
+- Some adjustement
 
-Loom : (https://www.loom.com/share/74c60033db9e45fea9237e01204cdf85?sid=eb92d1e2-3639-47e7-90f8-cac3424e53f1)
-Preview : (https://notes-tau-virid.vercel.app/f)
+Loom : (https://www.loom.com/share/443d4041352449a786cafd2ac8209385?sid=7c2804cb-5ef8-4cf2-a783-683d91a12e08)
+Preview : (https://notes-nine-xi.vercel.app/)
